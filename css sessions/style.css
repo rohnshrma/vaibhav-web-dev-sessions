@@ -1,0 +1,41 @@
+/* all selector */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* tag name selector */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* tag name selector */
+p {
+  color: grey;
+  font-family: sans-serif;
+  letter-spacing: 2px;
+}
+
+/* id selector
+tag name selector /* */
+*/ #main {
+  background-color: wheat;
+}
+
+/* class selector */
+.wrapper {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem;
+  box-shadow: 0 0 4px grey;
+}
+
+/* attribute selector */
+input[type="email"] {
+  padding: 2rem;
+}
