@@ -1,41 +1,50 @@
-/* all selector */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-/* tag name selector */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2 {
+  /* text size */
+  font-size: 40px;
+  /* text color */
+  color: red;
+  /* text boldness */
+  font-weight: 900;
+  /* font family */
   font-family: Arial, Helvetica, sans-serif;
+  /* letter spacing */
+  letter-spacing: 3px;
+  /* text shadow  : x, y , b , c */
+  text-shadow: -2px -2px 0 black;
+  /* text decoration */
+  text-decoration: line-through dotted lightblue;
 }
 
-/* tag name selector */
 p {
-  color: grey;
-  font-family: sans-serif;
-  letter-spacing: 2px;
+  /* text alignment */
+  text-align: justify;
+
+  /* line height */
+  line-height: 1.15;
 }
 
-/* id selector
-tag name selector /* */
-*/ #main {
-  background-color: wheat;
-}
+#main {
+  /* single background color */
 
-/* class selector */
-.wrapper {
-  text-align: center;
-  padding: 2rem;
-  margin: 2rem;
-  box-shadow: 0 0 4px grey;
-}
+  /* background-color: lavender; */
+  /* background: lavender; */
 
-/* attribute selector */
-input[type="email"] {
-  padding: 2rem;
+  /* multi color background */
+
+  /* background: linear-gradient(lavender, lightblue); */
+  /* background: linear-gradient(lavender, lightblue, skyblue); */
+  /* background: linear-gradient(90deg, lavender, lightblue); */
+  /* background: linear-gradient(45deg, lavender 50%, lightblue 50%); */
+
+  /* background-image: url(https://images.contentstack.io/v3/assets/bltcedd8dbd5891265b/blt75ca74b29e44a4a7/6668df6408a78ca63408a238/beautiful-flowers-cherry-blossoms.jpg?q=70&width=3840&auto=webp); */
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url(https://images.contentstack.io/v3/assets/bltcedd8dbd5891265b/blt75ca74b29e44a4a7/6668df6408a78ca63408a238/beautiful-flowers-cherry-blossoms.jpg?q=70&width=3840&auto=webp);
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
