@@ -1,3 +1,9 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 h2 {
   /* text size */
   font-size: 40px;
@@ -47,4 +53,61 @@ p {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+
+  /* padding : innerspacing */
+
+  /* padding-top: 120px;
+  padding-right: 120px;
+  padding-bottom: 120px;
+  padding-left: 120px; */
+
+  /* t-r-b-l */
+  padding: 80px;
+
+  /* t-b . l-r */
+  /* padding: 20px 40px; */
+
+  /* t , l-r , b */
+  /* padding: 20px 40px 80px; */
+
+  /* t-r-b-l */
+  /* padding: 12px 24px 56px 67px; */
+
+  /* margin: spacing b/w elements (outer spacing) */
+
+  /* margin-bottom: 80px;
+  margin-left: 80px;
+  margin-top: 80px;
+  margin-right: 80px; */
+
+  /* t-r-b-l */
+  margin: 80px;
+
+  /* t-b . l-r */
+  /* margin: 20px 40px; */
+
+  /* t , l-r , b */
+  /* margin: 20px 40px 80px; */
+
+  /* t-r-b-l */
+  /* margin: 12px 24px 56px 67px; */
+
+  /* border-color: orange;
+  border-width: 10px;
+  border-style: double; */
+
+  /* border: 10px solid red; */
+
+  /* border-top: 10px solid grey;
+  border-left: 10px solid grey;
+  border-right: 10px solid grey;
+  border-bottom: 10px solid grey; */
+
+  border-radius: 20px;
+
+  /* box shadow */
+
+  /* x, y, b , s, c */
+  /* box-shadow: 10px 20px 0 0 black; */
+  box-shadow: 0 0 10px 0 black;
 }
