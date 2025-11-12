@@ -4,38 +4,34 @@
   box-sizing: border-box;
 }
 
+.parent {
+  position: relative;
+  background-color: black;
+  height: 500px;
+  width: 500px;
+}
 .box {
   width: 100px;
   height: 100px;
 }
 /* fixed */
-/* element moves in relation to viewport */
+/* element moves in relation to viewport (by default), but can be forced to move in relation to its parent */
 /* doesn't remain part of document flow */
 
 .b1 {
   background: coral;
-  position: fixed;
-  bottom: 0;
-
-  left: 0;
 }
 .b2 {
   background: cornflowerblue;
-  position: fixed;
-  bottom: 0;
-  right: 0;
 }
 .b3 {
   background: teal;
-  position: fixed;
-  top: 0;
+  position: absolute;
+  bottom: 0;
   right: 0;
 }
 .b4 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: thistle;
+  background-color: thistle;
 }
 
 /* static (default), relative , absolute , fixed and sticky */
