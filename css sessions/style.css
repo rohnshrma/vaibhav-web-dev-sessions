@@ -4,110 +4,37 @@
   box-sizing: border-box;
 }
 
-h2 {
-  /* text size */
-  font-size: 40px;
-  /* text color */
-  color: red;
-  /* text boldness */
-  font-weight: 900;
-  /* font family */
-  font-family: Arial, Helvetica, sans-serif;
-  /* letter spacing */
-  letter-spacing: 3px;
-  /* text shadow  : x, y , b , c */
-  text-shadow: -2px -2px 0 black;
-  /* text decoration */
-  text-decoration: line-through dotted lightblue;
+.box {
+  width: 100px;
+  height: 100px;
+}
+/* relative */
+/* element moves in relation to its orignal position */
+/* remains part of document flow */
+
+.b1 {
+  background: coral;
+  position: relative;
+  top: 100px;
+  left: 300px;
+}
+.b2 {
+  background: cornflowerblue;
+  position: relative;
+  left: 400px;
+  top: 100px;
+}
+.b3 {
+  background: teal;
+  position: relative;
+  bottom: 200px;
+  left: 400px;
+}
+.b4 {
+  background: thistle;
+  position: relative;
+  bottom: 300px;
+  left: 200px;
 }
 
-p {
-  /* text alignment */
-  text-align: justify;
-
-  /* line height */
-  line-height: 1.15;
-}
-
-#main {
-  /* single background color */
-
-  /* background-color: lavender; */
-  /* background: lavender; */
-
-  /* multi color background */
-
-  /* background: linear-gradient(lavender, lightblue); */
-  /* background: linear-gradient(lavender, lightblue, skyblue); */
-  /* background: linear-gradient(90deg, lavender, lightblue); */
-  /* background: linear-gradient(45deg, lavender 50%, lightblue 50%); */
-
-  /* background-image: url(https://images.contentstack.io/v3/assets/bltcedd8dbd5891265b/blt75ca74b29e44a4a7/6668df6408a78ca63408a238/beautiful-flowers-cherry-blossoms.jpg?q=70&width=3840&auto=webp); */
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    url(https://images.contentstack.io/v3/assets/bltcedd8dbd5891265b/blt75ca74b29e44a4a7/6668df6408a78ca63408a238/beautiful-flowers-cherry-blossoms.jpg?q=70&width=3840&auto=webp);
-
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-
-  /* padding : innerspacing */
-
-  /* padding-top: 120px;
-  padding-right: 120px;
-  padding-bottom: 120px;
-  padding-left: 120px; */
-
-  /* t-r-b-l */
-  padding: 80px;
-
-  /* t-b . l-r */
-  /* padding: 20px 40px; */
-
-  /* t , l-r , b */
-  /* padding: 20px 40px 80px; */
-
-  /* t-r-b-l */
-  /* padding: 12px 24px 56px 67px; */
-
-  /* margin: spacing b/w elements (outer spacing) */
-
-  /* margin-bottom: 80px;
-  margin-left: 80px;
-  margin-top: 80px;
-  margin-right: 80px; */
-
-  /* t-r-b-l */
-  margin: 80px;
-
-  /* t-b . l-r */
-  /* margin: 20px 40px; */
-
-  /* t , l-r , b */
-  /* margin: 20px 40px 80px; */
-
-  /* t-r-b-l */
-  /* margin: 12px 24px 56px 67px; */
-
-  /* border-color: orange;
-  border-width: 10px;
-  border-style: double; */
-
-  /* border: 10px solid red; */
-
-  /* border-top: 10px solid grey;
-  border-left: 10px solid grey;
-  border-right: 10px solid grey;
-  border-bottom: 10px solid grey; */
-
-  border-radius: 20px;
-
-  /* box shadow */
-
-  /* x, y, b , s, c */
-  /* box-shadow: 10px 20px 0 0 black; */
-  box-shadow: 0 0 10px 0 black;
-}
+/* static (default), relative , absolute , fixed and sticky */
