@@ -14,9 +14,8 @@
   width: 100px;
   height: 100px;
 }
-/* absolute */
-/* element moves in relation to viewport (by default), but can be forced to move in relation to its parent */
-/* doesn't remain part of document flow */
+/* sticky */
+/* relative - fixed */
 
 .b1 {
   background: coral;
@@ -26,9 +25,8 @@
 }
 .b3 {
   background: teal;
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  position: sticky;
+  top: 10px;
 }
 .b4 {
   background-color: thistle;
