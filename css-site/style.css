@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sacramento&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-family: Sacramento, Arial, Helvetica, sans-serif;
+  font-size: 5rem;
+  font-style: italic;
+  text-shadow: -2px 2px 0 coral;
+}
+
+.level-2 {
+  font-size: 2rem;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  text-shadow: -2px 2px 0 coral;
+}
+
+#header {
+  position: relative;
+  padding-top: 50px;
+  background-color: #e9f6f6;
+  color: #66bfbf;
+  text-align: center;
+}
+
+#header .cloud {
+  width: 16rem;
+  filter: drop-shadow(-2px 0px 4px black);
+}
+#header .c1 {
+  position: relative;
+  top: 100px;
+  left: 500px;
+}
+
+#header .c2 {
+  position: absolute;
+  bottom: 300px;
+  left: 200px;
+}
+
+#header .mount {
+  filter: drop-shadow(-2px 0px 4px black);
+  width: 50rem;
+}
