@@ -6,7 +6,20 @@
   box-sizing: border-box;
 }
 
+p {
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+hr {
+  border: none;
+  border-top: 15px teal dotted;
+  width: 10%;
+  margin: 1rem auto;
+}
 h1 {
+  position: relative;
+  z-index: 2;
   font-family: Sacramento, Arial, Helvetica, sans-serif;
   font-size: 5rem;
   font-style: italic;
@@ -22,7 +35,7 @@ h1 {
 #header {
   position: relative;
   padding-top: 50px;
-  background-color: #e9f6f6;
+  background: linear-gradient(45deg, #e9f6f6 50%, coral);
   color: #66bfbf;
   text-align: center;
 }
@@ -35,15 +48,107 @@ h1 {
   position: relative;
   top: 100px;
   left: 500px;
+
+  animation-name: r_l;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
 #header .c2 {
   position: absolute;
   bottom: 300px;
   left: 200px;
+
+  animation-name: l_r;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+#header .c3 {
+  position: absolute;
+  left: -400px;
+  top: 100px;
+  animation-name: pass;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
 #header .mount {
   filter: drop-shadow(-2px 0px 4px black);
   width: 50rem;
+}
+
+#footer {
+  color: #fff;
+  text-align: center;
+  background-color: #66bfbf;
+  padding: 4rem 8rem;
+}
+
+#footer p {
+  margin-top: 1rem;
+}
+#footer i {
+  margin: 0 0.5rem;
+  font-size: 2rem;
+  color: #fff;
+}
+#footer a {
+  text-decoration: none;
+}
+#footer a:hover i {
+  transition: 0.3s ease-in-out;
+  transform: scale(1.2);
+  text-shadow: -1px 1px coral;
+}
+
+@keyframes l_r {
+  0% {
+    bottom: 300px;
+    left: 200px;
+  }
+  50% {
+    bottom: 300px;
+    left: -200px;
+  }
+  100% {
+    bottom: 300px;
+    left: 200px;
+  }
+}
+@keyframes r_l {
+  0% {
+    top: 100px;
+    left: 500px;
+  }
+  50% {
+    top: 100px;
+    left: 800px;
+    transform: scale(1.3);
+  }
+
+  100% {
+    top: 100px;
+    left: 500px;
+  }
+}
+
+@keyframes pass {
+  0% {
+    left: -400px;
+    top: 100px;
+  }
+  50% {
+    top: 100px;
+    left: 1800px;
+    transform: scale(1.3);
+  }
+
+  100% {
+    left: -400px;
+    top: 100px;
+  }
 }
