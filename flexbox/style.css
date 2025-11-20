@@ -1,0 +1,21 @@
+.box {
+  height: 100px;
+  width: 33.33%;
+  float: left;
+}
+
+.b1 {
+  background-color: coral;
+}
+.b2 {
+  background-color: thistle;
+}
+.b3 {
+  background-color: wheat;
+}
+
+#main::after {
+  content: "";
+  display: table;
+  clear: both;
+}
