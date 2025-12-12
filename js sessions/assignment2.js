@@ -94,6 +94,18 @@
 // let num = 17;
 // let isPrime = true;
 
+// let isPrime = true;
+// let num = 12;
+
+// for (let i = 2 ; i < num;i+=1){
+//   if (num % i ===0){
+//     isPrime = false;
+//     break;
+//   }
+// }
+
+// console.log(`${num} ${isPrime ? "is a prime" : "is not a prime"}`);
+
 // ============================================
 
 // TASK 12: Print first 10 multiples of 3
@@ -105,8 +117,16 @@
 // Output should be: 54321
 // Hint: Use % 10 to get last digit, then divide by 10
 
-// let originalNum = 12345;
+// let originalNum =123457654;
 // let reversed = 0;
+
+// for(; originalNum > 0 ;){
+//   let lastDigit =  originalNum % 10
+//   reversed = reversed * 10 + lastDigit
+//  originalNum = Math.floor(originalNum / 10)
+// }
+
+// console.log(reversed)
 
 // ============================================
 
@@ -117,6 +137,13 @@
 // let num = 45678;
 // let digitCount = 0;
 
+// for(;num > 0;){
+//   digitCount+=1
+//   num = Math.floor(num / 10)
+// }
+
+// console.log(num)
+
 // ============================================
 
 // TASK 15: Calculate factorial of a number
@@ -125,15 +152,29 @@
 // let n = 5;
 // let factorial = 1;
 
+// for (let i = n ; i >= 1; i-=1){
+//   factorial = factorial * i
+// //   factorial *= i
+// }
+// console.log(factorial)
+
 // ============================================
 
 // TASK 16: Check if a number is palindrome
 // A palindrome number reads the same forwards and backwards
 // Example: 121, 1331, 12321
 
-// let original = 121;
-// let temp = original;
+// let originalNum =111;
+// let main = originalNum; // 121
 // let reversed = 0;
+
+// for(; originalNum > 0 ;){
+//   let lastDigit =  originalNum % 10
+//   reversed = reversed * 10 + lastDigit
+//  originalNum = Math.floor(originalNum / 10)
+// }
+
+// console.log(`${main} ${main === reversed?"Palindrome": "Not a Palindrome"}`)
 
 // ============================================
 
@@ -141,9 +182,21 @@
 // Fibonacci: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34...
 // Each number is sum of previous two
 
-// let term1 = 0;
-// let term2 = 1;
-// let nextTerm;
+// let a = 0;
+// let b = 1;
+// let c;
+
+//   console.log(a)
+//     console.log(b)
+
+// for (let i = 3; i <= 10; i+=1){
+//   c = a + b
+
+//   console.log(c)
+
+//   a = b
+//   b = c
+// }
 
 // ============================================
 
@@ -151,9 +204,20 @@
 // Given: let text = "JavaScript"
 // Count all consonants (letters that are not vowels)
 
-// let text = "JavaScript";
-// let consonantCount = 0;
+let text = "JavaScript ! ! Webigeeks123".toLowerCase();
+let consonantCount = 0;
 
+let cleanText = text.replace(/[^a-z]/g, "");
+console.log(cleanText);
+
+var vowels = "aeiou";
+for (let i = 0; i < cleanText.length; i += 1) {
+  if (!vowels.includes(cleanText[i])) {
+    consonantCount += 1;
+  }
+}
+
+console.log(consonantCount);
 // ============================================
 
 // TASK 19: Sum of even numbers from 1 to 50
@@ -168,9 +232,38 @@
 // If yes, check if it has uppercase letter
 // Print strength: "Strong", "Medium", or "Weak"
 
-// let password = "Pass123";
-// let hasNumber = false;
-// let hasUppercase = false;
+let password = "pasS5678";
+let hasNumber = false;
+let hasUppercase = false;
+
+for (let i = 0; i < password.length; i += 1) {
+  let ch = password[i];
+
+  if (ch >= "A" && ch <= "Z") {
+    hasUppercase = true;
+  }
+
+  if (ch >= "0" && ch <= "9") {
+    hasNumber = true;
+  }
+}
+
+console.log(hasNumber);
+console.log(hasUppercase);
+
+if (password.length >= 8) {
+  if (hasNumber) {
+    if (hasUppercase) {
+      console.log("strong");
+    } else {
+      console.log("medium");
+    }
+  } else {
+    console.log("weak 2");
+  }
+} else {
+  console.log("weak 1");
+}
 
 // ============================================
 // END OF ASSIGNMENT
