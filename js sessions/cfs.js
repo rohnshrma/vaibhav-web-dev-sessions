@@ -1,5 +1,4 @@
 // let age = 1;
-
 // if (age >= 18) console.log("Eligible");
 
 // age >= 18 && console.log("Eligible");
@@ -82,16 +81,75 @@
 //   console.log(i);
 // }
 
-let name = "john doe is an alien";
-console.log(name[0]);
-console.log(name[1]);
-console.log(name[2]);
-console.log(name[3]);
+// let name = "john doe is an alien";
+// console.log(name[0]);
+// console.log(name[1]);
+// console.log(name[2]);
+// console.log(name[3]);
 
-let vowels = 0;
+// let vowels = 0;
 
-for (var i = 0; i < name.length; i += 1) {
-  if ("aeiouAEIOU".includes(name[i])) vowels += 1;
+// for (var i = 0; i < name.length; i += 1) {
+//   if ("aeiouAEIOU".includes(name[i])) vowels += 1;
+// }
+
+// console.log(vowels);
+
+// while (fixed)
+
+// let vowels = 0;
+// let i = 0; // initialization
+// while (i < name.length) {
+//   // condition
+//   if ("aeiouAEIOU".includes(name[i])) vowels += 1;
+//   i += 1; // update
+// }
+
+// console.log(vowels);
+
+// let nums = [122, 2, 5, 7, 11, 13, 45, 34, 22];
+// let primes = [];
+
+// let i = 0;
+// while (i < nums.length) {
+//   let num = nums[i];
+//   let isPrime = true;
+//   if (num <= 1) {
+//     isPrime = false;
+//   } else {
+//     for (let j = 2; j < num; j += 1) {
+//       if (num % j === 0) {
+//         isPrime = false;
+//         break;
+//       }
+//     }
+//   }
+
+//   if (isPrime) primes.push(num);
+
+//   i += 1;
+// }
+
+// console.log(primes);
+
+// while loop (non fixed iteration)
+// let myname = prompt("Enter your name").trim().toLowerCase();
+// while (myname.length < 3) {
+//   myname = prompt("Enter your name").trim().toLowerCase();
+// }
+
+// console.log(myname);
+
+let secretNum = Math.floor(Math.random() * 100 + 1);
+
+while (true) {
+  let num = Number(prompt("enter a number"));
+  if (num < secretNum) {
+    console.log("your number is smaller");
+  } else if (num > secretNum) {
+    console.log("your number is bigger");
+  } else {
+    console.log("congratulations");
+    break;
+  }
 }
-
-console.log(vowels);
