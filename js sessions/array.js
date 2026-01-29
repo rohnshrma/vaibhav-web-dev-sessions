@@ -398,3 +398,178 @@ let sorted = dishdata.sort(function (a, b) {
 });
 
 console.log(sorted);
+
+// =============== TASKS
+
+let products = [
+  {
+    id: 101,
+    name: "Wireless Mouse",
+    price: 899,
+    category: "Electronics",
+    brand: "Logitech",
+    rating: 4.3,
+    inStock: true,
+  },
+  {
+    id: 102,
+    name: "Bluetooth Headphones",
+    price: 2499,
+    category: "Electronics",
+    brand: "Boat",
+    rating: 4.1,
+    inStock: true,
+  },
+  {
+    id: 103,
+    name: "Laptop Stand",
+    price: 1299,
+    category: "Accessories",
+    brand: "Portronics",
+    rating: 3.8,
+    inStock: false,
+  },
+  {
+    id: 104,
+    name: "Mechanical Keyboard",
+    price: 4599,
+    category: "Electronics",
+    brand: "Redragon",
+    rating: 4.6,
+    inStock: true,
+  },
+  {
+    id: 105,
+    name: "Office Chair",
+    price: 7499,
+    category: "Furniture",
+    brand: "Green Soul",
+    rating: 4.4,
+    inStock: true,
+  },
+  {
+    id: 106,
+    name: "Water Bottle",
+    price: 499,
+    category: "Home",
+    brand: "Milton",
+    rating: 4.0,
+    inStock: false,
+  },
+  {
+    id: 107,
+    name: "USB-C Cable",
+    price: 299,
+    category: "Accessories",
+    brand: "AmazonBasics",
+    rating: 4.2,
+    inStock: true,
+  },
+  {
+    id: 108,
+    name: "Smart Watch",
+    price: 3999,
+    category: "Electronics",
+    brand: "Noise",
+    rating: 3.9,
+    inStock: true,
+  },
+  {
+    id: 109,
+    name: "Desk Lamp",
+    price: 1599,
+    category: "Home",
+    brand: "Wipro",
+    rating: 4.5,
+    inStock: true,
+  },
+  {
+    id: 110,
+    name: "Backpack",
+    price: 2199,
+    category: "Accessories",
+    brand: "Wildcraft",
+    rating: 4.1,
+    inStock: false,
+  },
+];
+
+// Task 1️⃣
+// 👉 forEach ka use karke sab products ke name print karo.
+
+// Task 2️⃣
+// 👉 map use karke sirf product names ka array banao.
+
+// Task 3️⃣
+// 👉 map use karke price par 10% discount lagao
+// (New key: discountPrice)
+
+// Task 4️⃣
+// 👉 filter use karke sirf Electronics category ke products nikalo.
+
+// Task 5️⃣
+// 👉 filter use karke sirf in-stock products ka array banao.
+
+// Task 6️⃣
+// 👉 filter use karke price > 2000 wale products nikalo.
+
+// Task 7️⃣
+// 👉 sort use karke price low → high order me sort karo.
+
+// Task 8️⃣
+// 👉 sort use karke price high → low order me sort karo.
+
+// Task 9️⃣
+// 👉 sort use karke product name A → Z order me sort karo.
+
+// Task 🔟
+// 👉 sort use karke brand name Z → A order me sort karo
+// (hint: localeCompare)
+
+// Task 1️⃣1️⃣
+// 👉 map use karke isPremium key add karo
+// true if price > 3000 else false
+
+// Task 1️⃣2️⃣
+// 👉 filter use karke sirf premium products nikalo.
+
+// Task 1️⃣3️⃣
+// 👉 map use karke GST (18%) ke saath final price add karo
+// (New key: priceWithGST)
+
+// Task 1️⃣4️⃣
+// 👉 forEach use karke total stock value nikaalo
+// (only inStock === true products)
+
+// Task 1️⃣5️⃣
+// 👉 filter + map
+// ➡️ Sirf Accessories category
+// ➡️ Output me {name, price} only
+
+// Task 1️⃣6️⃣
+// 👉 filter + sort
+// ➡️ Rating ≥ 4 wale products
+// ➡️ Sort by rating high → low
+
+// Task 1️⃣7️⃣
+// 👉 map use karke product label banao
+// Example: "Wireless Mouse (Logitech)"
+
+// Task 1️⃣8️⃣
+// 👉 filter use karke out of stock products nikalo.
+
+// Task 1️⃣9️⃣
+// 👉 map use karke price range tag add karo
+
+// "Budget" → price < 1000
+
+// "Mid" → 1000–3000
+
+// "Premium" → > 3000
+
+// Task 2️⃣0️⃣ 🔥 (Advanced Combo)
+// 👉 filter → map → sort
+// ➡️ In-stock products
+// ➡️ Rating ≥ 4
+// ➡️ Output {name, price, rating}
+// ➡️ Sort by price low → high
