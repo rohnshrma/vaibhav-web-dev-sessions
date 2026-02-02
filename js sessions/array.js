@@ -179,7 +179,7 @@ let dishdata = [
 // 3. Changeable → values can be modified
 // 4. Allows duplicates → same value can repeat
 
-let marks = [23, 23, 12, 3, 1, 3, 3, 431];
+let marks = [23, 23, 1234, 12, 3, 1, 3, 3, 431];
 
 // Prints the entire array
 console.log(marks);
@@ -410,6 +410,7 @@ let products = [
     brand: "Logitech",
     rating: 4.3,
     inStock: true,
+    quantity: 24,
   },
   {
     id: 102,
@@ -419,6 +420,7 @@ let products = [
     brand: "Boat",
     rating: 4.1,
     inStock: true,
+    quantity: 21,
   },
   {
     id: 103,
@@ -428,6 +430,7 @@ let products = [
     brand: "Portronics",
     rating: 3.8,
     inStock: false,
+    quantity: 0,
   },
   {
     id: 104,
@@ -437,6 +440,7 @@ let products = [
     brand: "Redragon",
     rating: 4.6,
     inStock: true,
+    quantity: 112,
   },
   {
     id: 105,
@@ -446,6 +450,7 @@ let products = [
     brand: "Green Soul",
     rating: 4.4,
     inStock: true,
+    quantity: 55,
   },
   {
     id: 106,
@@ -455,6 +460,7 @@ let products = [
     brand: "Milton",
     rating: 4.0,
     inStock: false,
+    quantity: 0,
   },
   {
     id: 107,
@@ -464,6 +470,7 @@ let products = [
     brand: "AmazonBasics",
     rating: 4.2,
     inStock: true,
+    quantity: 11,
   },
   {
     id: 108,
@@ -473,6 +480,7 @@ let products = [
     brand: "Noise",
     rating: 3.9,
     inStock: true,
+    quantity: 21,
   },
   {
     id: 109,
@@ -482,6 +490,7 @@ let products = [
     brand: "Wipro",
     rating: 4.5,
     inStock: true,
+    quantity: 2,
   },
   {
     id: 110,
@@ -491,6 +500,7 @@ let products = [
     brand: "Wildcraft",
     rating: 4.1,
     inStock: false,
+    quantity: 0,
   },
 ];
 
@@ -573,3 +583,215 @@ let products = [
 // ➡️ Rating ≥ 4
 // ➡️ Output {name, price, rating}
 // ➡️ Sort by price low → high
+
+// == reduce
+
+// when value of pv is not explicitly defined
+// pv = marks[0]
+// cv = marks[1]
+
+console.log(marks);
+
+// return sum of all values of an array
+
+// let total = marks.reduce(function (sum, cv) {
+//   console.log(sum, cv);
+//   return sum + cv;
+// });
+
+// console.log(total);
+
+// let max = marks.reduce(function (max, cv) {
+//   return cv > max ? cv : max;
+// });
+
+// console.log(max);
+
+// when value of pv is defined explicitly
+
+// pv = user defined
+// cv = arr[0]
+
+let min = marks.reduce(function (min, cv) {
+  if (cv < min) {
+    return cv;
+  } else {
+    return min;
+  }
+}, marks[0]);
+
+console.log(min);
+
+// Task 1️⃣4️⃣
+// 👉 forEach use karke total stock value nikaalo
+// (only inStock === true products)
+
+// let totalStockValue = products
+//   .filter((product) => product.inStock)
+//   .reduce((total, product) => (total += product.price * product.quantity), 0);
+
+// console.log(totalStockValue);
+//what if a product has more than one item in stock
+
+// Task 1️⃣5️⃣
+// 👉 filter + map
+// ➡️ Sirf Accessories category
+// ➡️ Output me {name, price} only
+
+let acc_products = products
+  .filter((product) => product.category === "Accessories")
+  .map((product) => {
+    return { name: product.name, price: product.price };
+  });
+
+console.log(acc_products);
+
+let labels = products.map((product) => `${product.name} (${product.brand})`);
+
+console.log(labels);
+
+//  Task 2️⃣0️⃣ 🔥 (Advanced Combo)
+// 👉 filter → map → sort
+// ➡️ In-stock products
+// ➡️ Rating ≥ 4
+// ➡️ Output {name, price, rating}
+// ➡️ Sort by price low → high
+
+//filter + sort
+// ➡️ Rating ≥ 4 wale products
+// ➡️ Sort by rating high → low
+
+let avStock = products
+  .filter((product) => product.inStock && product.rating >= 4)
+  .map((product) => {
+    return { name: product.name, price: product.price, rating: product.rating };
+  })
+  .sort((a, b) => b.rating - a.rating);
+
+console.log(avStock);
+
+// ==========================
+// 🔥 Part 1 — Reduce Only (6 Tasks)
+// Task 1:
+// Use reduce to calculate the total inventory value.
+// (price × quantity for all products)
+
+// Task 2:
+// Use reduce to find the total quantity of all products in stock.
+
+// Task 3:
+// Use reduce to find the product with the highest rating.
+
+// Task 4:
+// Use reduce to count how many products are out of stock.
+
+// Task 5:
+// Use reduce to calculate total price of Electronics category only.
+
+// Task 6:
+// Use reduce to find the most expensive product.
+
+// 🚀 Part 2 — Combined Tasks (20)
+
+// Each task must use:
+// 👉 map + sort + reduce / forEach
+
+// Task 1:
+// Add 10% GST to all prices using map,
+// sort by highest price,
+// reduce total final price.
+
+// Task 2:
+// Convert price into dollars (divide by 80) using map,
+// sort cheapest to expensive,
+// forEach print converted prices.
+
+// Task 3:
+// Increase rating by 0.5 using map,
+// sort highest rating first,
+// reduce average rating.
+
+// Task 4:
+// Create product labels (name + brand) using map,
+// sort alphabetically,
+// forEach print labels.
+
+// Task 5:
+// Apply 20% discount using map,
+// sort cheapest first,
+// reduce total discounted inventory value.
+
+// Task 6:
+// Convert quantity to stock value (price × quantity) using map,
+// sort highest stock value first,
+// reduce total warehouse value.
+
+// Task 7:
+// Add "★" after each rating using map,
+// sort by rating,
+// forEach print formatted ratings.
+
+// Task 8:
+// Increase price by ₹100 using map,
+// sort highest first,
+// reduce total increase amount.
+
+// Task 9:
+// Extract product names using map,
+// sort alphabetically,
+// forEach print names.
+
+// Task 10:
+// Add shipping cost ₹50 using map,
+// sort by final price,
+// reduce total revenue.
+
+// Task 11:
+// Convert prices to strings with ₹ symbol using map,
+// sort by price,
+// forEach display formatted price.
+
+// Task 12:
+// Increase quantity by 5 using map,
+// sort highest quantity,
+// reduce total quantity.
+
+// Task 13:
+// Create objects with name + rating using map,
+// sort by rating,
+// forEach print summary.
+
+// Task 14:
+// Add clearance discount ₹200 using map,
+// sort cheapest first,
+// reduce total clearance value.
+
+// Task 15:
+// Double stock value using map,
+// sort highest stock value,
+// reduce total value.
+
+// Task 16:
+// Create uppercase names using map,
+// sort alphabetically,
+// forEach print.
+
+// Task 17:
+// Convert rating to percentage using map,
+// sort highest,
+// reduce average percentage.
+
+// Task 18:
+// Add tax + shipping using map,
+// sort final price,
+// reduce total revenue.
+
+// Task 19:
+// Create summary strings using map,
+// sort alphabetically,
+// forEach display.
+
+// Task 20:
+// Add bonus stock using map,
+// sort highest quantity,
+// reduce total inventory count.
