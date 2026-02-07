@@ -795,3 +795,11 @@ console.log(avStock);
 // Add bonus stock using map,
 // sort highest quantity,
 // reduce total inventory count.
+
+// return true one or more item passes the given condition
+// console.log(products.some((product) => product.rating > 4));
+// console.log(products.some((product) => product.rating == 1));
+
+// return true if all items passes the given condition
+// console.log(products.every((product) => product.rating > 1));
+// console.log(products.every((product) => product.rating > 4));
