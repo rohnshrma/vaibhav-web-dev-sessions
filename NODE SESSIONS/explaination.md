@@ -2,6 +2,58 @@
 
 Use this to explain how your Node server works from top to bottom.
 
+## Code Snippet (`server.js`)
+
+```js
+import http from "http";
+import { cwd } from "process";
+import fs from "fs";
+
+const server = http.createServer((req, res) => {
+  if (req.url === "/" || req.url === "/index.html") {
+    const filePath = `${cwd()}/pages/index.html`;
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        res.writeHead(500, { "content-type": "text/plain" });
+        res.end("Sorry, Something went wrong");
+        return;
+      }
+      res.writeHead(200, { "content-type": "text/html" });
+      res.end(data);
+    });
+    return;
+  }
+
+  if (req.url === "/api") {
+    res.writeHead(200, { "content-type": "application/json" });
+    res.write(JSON.stringify({ message: "API IS RUNNING", status: 200 }));
+    res.end();
+    return;
+  }
+
+  if (req.url === "/about") {
+    const filePath = `${cwd()}/pages/about.html`;
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        res.writeHead(500, { "content-type": "text/plain" });
+        res.end("Sorry, Something went wrong");
+        return;
+      }
+      res.writeHead(200, { "content-type": "text/html" });
+      res.end(data);
+    });
+    return;
+  }
+
+  res.writeHead(404, { "content-type": "text/html" });
+  res.end("<h1>Nahi Hai Wapas Jao</h1><a href='/'>Simon Go Back</a>");
+});
+
+server.listen(3000, () => {
+  console.log("server running on port : 3000");
+});
+```
+
 1. Import modules
    - `import http from "http";`
    - `import { cwd } from "process";`
