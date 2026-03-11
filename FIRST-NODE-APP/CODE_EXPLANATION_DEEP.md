@@ -14,6 +14,12 @@ Create a new file in project root:
 touch server.js
 ```
 
+Windows Command Prompt:
+
+```bat
+type nul > server.js
+```
+
 ---
 
 ### Step 2: Initialize npm
