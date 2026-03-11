@@ -35,11 +35,11 @@ app
   })
   .post((req, res) => {
     profiles.push(req.body);
-    res.send("<div>Prfile Added</div><br><a href='/'>Go Back</a>");
+    res.sendFile(`${cwd()}/pages/success.html`);
   });
 
-// app.use((req, res) => {
-//   res.status(404).sendFile(`${cwd()}/pages/404.html`);
-// });
+app.use((req, res) => {
+  res.status(404).sendFile(`${cwd()}/pages/404.html`);
+});
 
 app.listen(PORT, () => console.log("Server started on port : ", PORT));

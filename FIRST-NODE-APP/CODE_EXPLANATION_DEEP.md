@@ -1,6 +1,6 @@
 # `server.js` Setup + Full Line-by-Line Explanation
 
-This guide now covers only `server.js`.
+This guide covers `server.js`, and now also includes the new contact form submission flow.
 
 ---
 
@@ -106,10 +106,14 @@ const app = express();
 
 const PORT = 3000;
 
+const profiles = [];
+
 //
 app.use(morgan("dev"));
 
 app.use(express.static("public"));
+
+app.use(express.urlencoded({ extended: true }));
 
 //routes
 
@@ -119,13 +123,21 @@ app.route("/").get((req, res) => {
   res.sendFile(`${cwd()}/pages/index.html`);
 });
 
+// about
 app.route("/about").get((req, res) => {
   res.sendFile(`${cwd()}/pages/about.html`);
 });
 
-app.route("/contact").get((req, res) => {
-  res.sendFile(`${cwd()}/pages/contact.html`);
-});
+// contact
+app
+  .route("/contact")
+  .get((req, res) => {
+    res.sendFile(`${cwd()}/pages/contact.html`);
+  })
+  .post((req, res) => {
+    profiles.push(req.body);
+    res.sendFile(`${cwd()}/pages/success.html`);
+  });
 
 app.use((req, res) => {
   res.status(404).sendFile(`${cwd()}/pages/404.html`);
@@ -136,7 +148,7 @@ app.listen(PORT, () => console.log("Server started on port : ", PORT));
 
 ---
 
-## 3) Line-by-Line Explanation (each line with code snippet)
+## 3) Line-by-Line Explanation (updated for the new contact flow)
 
 ### Line 1
 
@@ -203,13 +215,30 @@ const PORT = 3000;
 ### Line 8
 
 ```js
+const profiles = [];
+```
+
+- Creates an in-memory array to store submitted contact/profile form data.
+- This data is temporary and resets whenever the server restarts.
+
+### Line 9
+
+```js
+
+```
+
+- Blank line for readability.
+
+### Line 10
+
+```js
 //
 ```
 
 - Comment line only.
 - No runtime behavior.
 
-### Line 9
+### Line 11
 
 ```js
 app.use(morgan("dev"));
@@ -218,24 +247,6 @@ app.use(morgan("dev"));
 - Registers Morgan middleware globally.
 - `"dev"` format prints compact request logs (method, URL, status, time).
 - `app.use(...)` means run for every request.
-
-### Line 10
-
-```js
-
-```
-
-- Blank line.
-
-### Line 11
-
-```js
-app.use(express.static("public"));
-```
-
-- Serves static files from `public/` directory.
-- Example: `/styles.css` maps to `public/styles.css`.
-- Important for CSS/images/js assets.
 
 ### Line 12
 
@@ -248,10 +259,12 @@ app.use(express.static("public"));
 ### Line 13
 
 ```js
-//routes
+app.use(express.static("public"));
 ```
 
-- Comment label for route section.
+- Serves static files from `public/` directory.
+- Example: `/styles.css` maps to `public/styles.css`.
+- Important for CSS/images/js assets.
 
 ### Line 14
 
@@ -264,10 +277,12 @@ app.use(express.static("public"));
 ### Line 15
 
 ```js
-// home (root)
+app.use(express.urlencoded({ extended: true }));
 ```
 
-- Comment indicating next route is root path.
+- Parses HTML form data sent with `application/x-www-form-urlencoded`.
+- Makes submitted values available on `req.body`.
+- Needed because the contact form submits with `method="post"`.
 
 ### Line 16
 
@@ -280,30 +295,26 @@ app.use(express.static("public"));
 ### Line 17
 
 ```js
-app.route("/").get((req, res) => {
+//routes
 ```
 
-- Starts GET route for `/`.
-- `req` = incoming request object.
-- `res` = outgoing response object.
-- `app.route("/").get(...)` defines handler for HTTP GET on root.
+- Comment label for route section.
 
 ### Line 18
 
 ```js
-  res.sendFile(`${cwd()}/pages/index.html`);
+
 ```
 
-- Sends `pages/index.html` to browser.
-- Uses absolute path with `cwd()` to avoid path resolution issues.
+- Blank line.
 
 ### Line 19
 
 ```js
-});
+// home (root)
 ```
 
-- Ends root route callback and route definition.
+- Comment indicating next route is root path.
 
 ### Line 20
 
@@ -316,18 +327,22 @@ app.route("/").get((req, res) => {
 ### Line 21
 
 ```js
-app.route("/about").get((req, res) => {
+app.route("/").get((req, res) => {
 ```
 
-- Starts GET route for `/about`.
+- Starts GET route for `/`.
+- `req` = incoming request object.
+- `res` = outgoing response object.
+- `app.route("/").get(...)` defines handler for HTTP GET on root.
 
 ### Line 22
 
 ```js
-  res.sendFile(`${cwd()}/pages/about.html`);
+  res.sendFile(`${cwd()}/pages/index.html`);
 ```
 
-- Sends `pages/about.html`.
+- Sends `pages/index.html` to browser.
+- Uses absolute path with `cwd()` to avoid path resolution issues.
 
 ### Line 23
 
@@ -335,7 +350,7 @@ app.route("/about").get((req, res) => {
 });
 ```
 
-- Ends `/about` route block.
+- Ends root route callback and route definition.
 
 ### Line 24
 
@@ -348,28 +363,36 @@ app.route("/about").get((req, res) => {
 ### Line 25
 
 ```js
-app.route("/contact").get((req, res) => {
+// about
 ```
 
-- Starts GET route for `/contact`.
+- Comment indicating next route is for the About page.
 
 ### Line 26
 
 ```js
-  res.sendFile(`${cwd()}/pages/contact.html`);
+app.route("/about").get((req, res) => {
 ```
 
-- Sends `pages/contact.html`.
+- Starts GET route for `/about`.
 
 ### Line 27
+
+```js
+  res.sendFile(`${cwd()}/pages/about.html`);
+```
+
+- Sends `pages/about.html`.
+
+### Line 28
 
 ```js
 });
 ```
 
-- Ends `/contact` route block.
+- Ends `/about` route block.
 
-### Line 28
+### Line 29
 
 ```js
 
@@ -377,7 +400,103 @@ app.route("/contact").get((req, res) => {
 
 - Blank line.
 
-### Line 29
+### Line 30
+
+```js
+// contact
+```
+
+- Comment indicating the next route handles the contact page and submissions.
+
+### Line 31
+
+```js
+app
+```
+
+- Starts a chained route definition.
+- This lets you attach multiple handlers (`GET`, `POST`) to the same path.
+
+### Line 32
+
+```js
+  .route("/contact")
+```
+
+- Selects the `/contact` route path once.
+- The following `.get(...)` and `.post(...)` handlers both belong to this same path.
+
+### Line 33
+
+```js
+  .get((req, res) => {
+```
+
+- Starts the GET handler for `/contact`.
+- This is what shows the form page in the browser.
+
+### Line 34
+
+```js
+    res.sendFile(`${cwd()}/pages/contact.html`);
+```
+
+- Sends `pages/contact.html`.
+- That file contains the profile submission form.
+
+### Line 35
+
+```js
+  })
+```
+
+- Ends the GET handler.
+- Keeps the chain open so a POST handler can be added next.
+
+### Line 36
+
+```js
+  .post((req, res) => {
+```
+
+- Starts the POST handler for `/contact`.
+- This runs when the form is submitted from `contact.html`.
+
+### Line 37
+
+```js
+    profiles.push(req.body);
+```
+
+- Adds the submitted form data object to the `profiles` array.
+- `req.body` contains the parsed form fields because of `express.urlencoded(...)`.
+
+### Line 38
+
+```js
+    res.sendFile(`${cwd()}/pages/success.html`);
+```
+
+- Sends the new success page after the form is submitted.
+- This replaces the earlier inline HTML response.
+
+### Line 39
+
+```js
+  });
+```
+
+- Ends the POST handler and completes the `/contact` route chain.
+
+### Line 40
+
+```js
+
+```
+
+- Blank line.
+
+### Line 41
 
 ```js
 app.use((req, res) => {
@@ -386,7 +505,7 @@ app.use((req, res) => {
 - Catch-all middleware for unmatched routes.
 - Because it is placed after known routes, it runs only when no route matched.
 
-### Line 30
+### Line 42
 
 ```js
   res.status(404).sendFile(`${cwd()}/pages/404.html`);
@@ -395,7 +514,7 @@ app.use((req, res) => {
 - Sets HTTP status to `404`.
 - Sends custom 404 page (`pages/404.html`).
 
-### Line 31
+### Line 43
 
 ```js
 });
@@ -403,7 +522,7 @@ app.use((req, res) => {
 
 - Ends catch-all middleware block.
 
-### Line 32
+### Line 44
 
 ```js
 
@@ -411,7 +530,7 @@ app.use((req, res) => {
 
 - Blank line.
 
-### Line 33
+### Line 45
 
 ```js
 app.listen(PORT, () => console.log("Server started on port : ", PORT));
@@ -423,13 +542,103 @@ app.listen(PORT, () => console.log("Server started on port : ", PORT));
 
 ---
 
-## 4) Execution Order (important concept)
+## 4) New Contact Route Flow
+
+The `/contact` route now supports both showing the form and processing the form:
+
+### `GET /contact`
+
+- Sends `pages/contact.html`.
+- This displays the profile submission form to the user.
+
+### `POST /contact`
+
+- Receives the submitted form fields.
+- Stores them in `profiles`.
+- Sends `pages/success.html`.
+
+This is possible because the form in `contact.html` uses:
+
+```html
+<form action="/contact" method="post">
+```
+
+So the browser sends the form data to the same `/contact` path, but using a `POST` request instead of `GET`.
+
+---
+
+## 5) Success Page Explanation
+
+After a successful form submission, this line runs:
+
+```js
+res.sendFile(`${cwd()}/pages/success.html`);
+```
+
+That sends the new `success.html` page to the browser.
+
+Why this is better than `res.send("<div>...</div>")`:
+- The HTML stays in its own page file.
+- The success page can reuse the same styling and navbar.
+- It is easier to maintain and edit later.
+
+The success page contains:
+- a centered card
+- a success message saying the profile was added
+- a button linking back to the homepage
+
+---
+
+## 6) Example Submitted Data
+
+When the user submits the form, `req.body` can look like this:
+
+```js
+{
+  owner: "Alex Johnson",
+  email: "alex@email.com",
+  dog_name: "Milo",
+  breed: "Golden Retriever",
+  age: "3",
+  type: "Featured Pet",
+  city: "New York",
+  bio: "Friendly and energetic."
+}
+```
+
+That full object is what gets pushed into:
+
+```js
+profiles
+```
+
+---
+
+## 7) Execution Order (important concept)
 
 For any request, Express processes top-to-bottom:
 
 1. `morgan("dev")` logs request.
 2. `express.static("public")` tries to serve static file.
-3. Named routes (`/`, `/about`, `/contact`) are checked.
-4. If no route matches, catch-all returns `404` page.
+3. `express.urlencoded({ extended: true })` parses form bodies for POST requests.
+4. Named routes (`/`, `/about`, `/contact`) are checked.
+5. If no route matches, catch-all returns `404` page.
 
 This order is why the 404 handler must stay near the end.
+
+---
+
+## 8) Important Limitation
+
+This line:
+
+```js
+const profiles = [];
+```
+
+means the submitted profiles are stored only in server memory.
+
+So:
+- data is not permanent
+- restarting the server clears all submissions
+- a database or file storage would be needed for real persistence
