@@ -16,17 +16,6 @@
       <section class="grid">
         <article class="card">
           <h2>Add Expense</h2>
-
-          <!--
-            This form is rendered by the server and shown in the browser.
-
-            This form sends a POST request to /add-expense.
-            The `name` attributes are the keys Express receives inside req.body.
-
-            Example after submit:
-            - input name="name" -> req.body.name
-            - input name="amount" -> req.body.amount
-          -->
           <form class="expense-form" action="/add-expense" method="POST">
             <div class="field">
               <label for="name">Expense Name</label>
@@ -59,12 +48,6 @@
 
           <div class="summary">
             <div>
-              <!--
-                `total` is calculated in server.js and passed into this template by:
-                res.render("home", { expenses, total })
-
-                EJS can access those variables directly.
-              -->
               <div class="summary-label">Total Expenses</div>
               <div class="summary-value">₹ <%= total %></div>
             </div>
@@ -73,30 +56,13 @@
             %>
           </div>
 
-          <% /*
-            EJS lets us write JavaScript logic inside HTML.
-            This condition checks whether the `expenses` array has any items.
-
-            If expenses exist:
-            - show the list
-            Otherwise:
-            - show the empty state message
-          */ %>
           <% if(expenses.length > 0){ %>
 
           <ul class="expense-list">
-            <% /*
-              `forEach` loops through every expense object in the array.
-              For each expense, EJS repeats the HTML below one time.
-            */ %>
             <% expenses.forEach(expenseObj =>{ %>
 
             <li class="expense-item">
               <div class="expense-meta">
-                <!--
-                  `<%=` prints a JavaScript value into the HTML output.
-                  So the expense name stored in MongoDB becomes visible on the page.
-                -->
                 <span class="expense-name"><%= expenseObj.name %></span>
 
                 <%#<span class="expense-caption"
@@ -107,15 +73,6 @@
 
               <div class="expense-actions">
                 <span class="expense-amount">₹ <%= expenseObj.amount %></span>
-
-                <!--
-                  This delete form sends a POST request to a dynamic URL.
-                  Example:
-                  - if `_id` is 123
-                  - form action becomes `/delete/123`
-
-                  In Express, that value is available as `req.params.id`.
-                -->
                 <form action="/delete/<%= expenseObj._id %>" method="POST">
                   <button class="delete-btn" type="submit">Delete</button>
                 </form>
