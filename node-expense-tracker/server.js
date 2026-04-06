@@ -76,4 +76,54 @@ app.route("/delete/:id").post(async (req, res) => {
   }
 });
 
+app
+  .route("/update/:id")
+  .get(async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const expense = await Expense.findById(id);
+      if (!expense) {
+        console.log("Expense not found");
+        return res.redirect("/");
+      }
+
+      res.render("edit", {
+        expense,
+      });
+    } catch (err) {
+      console.log("Error while loading edit page =>", err);
+      res.redirect("/");
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      const { id } = req.params;
+      const name = req.body.name?.trim();
+      const amount = Number(req.body.amount);
+
+      if (!name || Number.isNaN(amount) || amount <= 0) {
+        console.log("Name and amount are invalid");
+        return res.redirect("/");
+      }
+
+      const expense = await Expense.findById(id);
+      if (!expense) {
+        console.log("Expense not found");
+        return res.redirect("/");
+      }
+
+      expense.name = name;
+      expense.amount = amount;
+
+      await expense.save();
+
+      console.log("expense updated =>", expense);
+      res.redirect("/");
+    } catch (err) {
+      console.log("Error while updating form =>", err);
+      res.redirect("/");
+    }
+  });
+
 app.listen(PORT, () => console.log("Server Started on PORT :", PORT));

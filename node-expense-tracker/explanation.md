@@ -19,7 +19,8 @@ The app lets a user:
 2. add an expense
 3. view all expenses
 4. see the total amount
-5. delete an expense
+5. update an existing expense
+6. delete an expense
 
 Even though the app is small, it teaches the full backend flow:
 
@@ -37,6 +38,7 @@ That makes this a very good beginner project for understanding how backend and f
 - `config/db.js`: connects the app to MongoDB
 - `models/expense.js`: defines the data structure using a Mongoose schema and model
 - `views/home.ejs`: HTML template rendered by the server
+- `views/edit.ejs`: HTML template rendered for editing one expense
 - `public/style.css`: CSS file served as a static file
 - `package.json`: scripts and dependencies
 
@@ -162,6 +164,7 @@ The app depends on the database for:
 
 - loading expenses
 - creating expenses
+- updating expenses
 - deleting expenses
 
 So connecting early is important.
@@ -295,6 +298,8 @@ In this project, we use:
 
 - `GET /`
 - `POST /add-expense`
+- `GET /update/:id`
+- `POST /update/:id`
 - `POST /delete/:id`
 
 ### Why method matters
@@ -310,6 +315,8 @@ In this app:
 
 - `GET /` loads the page
 - `POST /add-expense` creates new data
+- `GET /update/:id` loads the edit page for one expense
+- `POST /update/:id` updates existing data
 - `POST /delete/:id` deletes data
 
 ## 8. Understanding `app.route(...)`
@@ -521,7 +528,247 @@ If successful, MongoDB stores something like:
 }
 ```
 
-## 11. The Delete Route: `POST /delete/:id`
+## 11. The Update Routes: `GET /update/:id` and `POST /update/:id`
+
+Code lives in [server.js](/Users/rohan/Desktop/Rohan%20Desktop/Classes/vaibhav%20web%20dev%20sessions/node-expense-tracker/server.js:61) and [edit.ejs](/Users/rohan/Desktop/Rohan%20Desktop/Classes/vaibhav%20web%20dev%20sessions/node-expense-tracker/views/edit.ejs:1)
+
+Purpose of these routes:
+
+- open an edit page for one specific expense
+- load the old values into the form
+- allow the user to change those values
+- validate the submitted update
+- save the new values in MongoDB
+- redirect back to the home page
+
+This feature uses two routes because editing has two different jobs:
+
+- `GET /update/:id` shows the edit form
+- `POST /update/:id` processes the submitted form
+
+### Part A: Why the edit link starts in `home.ejs`
+
+Inside `home.ejs`, each expense has an edit button:
+
+```ejs
+<a href="/update/<%= expenseObj._id %>">
+  <button class="update-btn" type="submit">Edit</button>
+</a>
+```
+
+What this does:
+
+- `<%= expenseObj._id %>` prints the current expense id into the URL
+- EJS builds a unique URL for every expense
+- if one expense id is `abc123`, the browser receives `/update/abc123`
+- clicking that link sends a `GET` request, because links naturally open pages with `GET`
+
+So the home page is not updating data directly.
+It is only taking the user to the correct edit page for the selected expense.
+
+### Part B: `GET /update/:id`
+
+Core logic:
+
+```js
+const { id } = req.params;
+
+const expense = await Expense.findById(id);
+if (!expense) {
+  console.log("Expense not found");
+  return res.redirect("/");
+}
+
+res.render("edit", {
+  expense,
+});
+```
+
+Step-by-step flow:
+
+1. User clicks the edit button on the home page
+2. Browser sends `GET /update/<expense-id>`
+3. Express matches the route `GET /update/:id`
+4. Express puts the dynamic URL value inside `req.params.id`
+5. Route calls `Expense.findById(id)` to fetch exactly one expense
+6. If no document exists, the route redirects to `/`
+7. If the document exists, the route renders `edit.ejs`
+8. `expense` is passed into the EJS template
+9. Browser receives a form already filled with the current data
+
+### Why `findById(id)` is used here
+
+The edit page should show one existing expense, not the whole list.
+
+So this is the correct question for the database:
+
+- "give me the expense whose `_id` matches this URL id"
+
+That is exactly what `findById(id)` means.
+
+### Part C: How `edit.ejs` works
+
+File: [edit.ejs](/Users/rohan/Desktop/Rohan%20Desktop/Classes/vaibhav%20web%20dev%20sessions/node-expense-tracker/views/edit.ejs:1)
+
+The server renders this file using:
+
+```js
+res.render("edit", { expense });
+```
+
+That means the variable `expense` becomes available inside the template.
+
+Annotated version:
+
+```ejs
+<form
+  class="expense-form"
+  action="/update/<%= expense._id %>"  <%# Sends the edited data back to the same expense id %>
+  method="POST"                        <%# Uses POST because this submission changes data in the database %>
+>
+  <div class="field">
+    <label for="name">Expense Name</label>
+    <input
+      type="text"
+      id="name"
+      name="name"                      <%# This key becomes req.body.name on the server %>
+      placeholder="Groceries"
+      value="<%= expense.name %>"      <%# Prefills the input with the current saved name %>
+    />
+  </div>
+
+  <div class="field">
+    <label for="amount">Amount</label>
+    <input
+      type="number"
+      id="amount"
+      name="amount"                    <%# This key becomes req.body.amount on the server %>
+      placeholder="250"
+      min="0"
+      step="0.01"
+      value="<%= expense.amount %>"    <%# Prefills the input with the current saved amount %>
+    />
+  </div>
+
+  <button class="primary-btn" type="submit">Update Expense</button>
+</form>
+```
+
+### Logic behind the EJS values
+
+#### `action="/update/<%= expense._id %>"`
+
+This is very important.
+
+The form submission must tell the server which expense should be updated.
+
+So EJS inserts the current document id directly into the form action.
+
+Example:
+
+```txt
+/update/67f123abc
+```
+
+When the user submits the form, Express can read that id from `req.params.id`.
+
+#### `value="<%= expense.name %>"`
+
+This prints the current name into the text input.
+
+Without this line:
+
+- the form would appear empty
+- the user would not see the old value
+- editing would feel like creating a new expense instead of modifying an old one
+
+This is called pre-filling the form.
+
+#### `value="<%= expense.amount %>"`
+
+This does the same thing for the amount field.
+
+So the user sees the old numeric value before changing it.
+
+### Part D: `POST /update/:id`
+
+Core logic:
+
+```js
+const { id } = req.params;
+const name = req.body.name?.trim();
+const amount = Number(req.body.amount);
+
+if (!name || Number.isNaN(amount) || amount <= 0) {
+  console.log("Name and amount are invalid");
+  return res.redirect("/");
+}
+
+const expense = await Expense.findById(id);
+if (!expense) {
+  console.log("Expense not found");
+  return res.redirect("/");
+}
+
+expense.name = name;
+expense.amount = amount;
+
+await expense.save();
+```
+
+Step-by-step flow:
+
+1. User changes the prefilled values in `edit.ejs`
+2. User clicks `Update Expense`
+3. Browser sends `POST /update/<expense-id>`
+4. `express.urlencoded()` converts form fields into `req.body`
+5. Route reads the id from `req.params.id`
+6. Route reads the edited values from `req.body.name` and `req.body.amount`
+7. Route trims the name and converts amount into a number
+8. Route validates the incoming values
+9. Route checks whether the target expense still exists
+10. Route updates the document fields in memory
+11. `await expense.save()` writes the new values into MongoDB
+12. Route redirects to `/`
+13. Browser requests the home page again
+14. User sees the updated expense in the list
+
+### Why the route updates the document in two steps
+
+The code does this:
+
+```js
+expense.name = name;
+expense.amount = amount;
+
+await expense.save();
+```
+
+This approach is useful for learning because it clearly shows:
+
+- first we fetch the document
+- then we change its fields
+- then we save the document
+
+Conceptually, it feels similar to editing an object in JavaScript and then persisting it.
+
+### Why validation happens again in the update route
+
+Even though the expense already exists in the database, the new submitted values could still be bad.
+
+For example, the user could try to send:
+
+- an empty name
+- a non-numeric amount
+- a zero or negative amount
+
+So update routes need validation too, not only create routes.
+
+### Complete update cycle in one line
+
+Home page edit link -> `GET /update/:id` -> `edit.ejs` prefilled form -> `POST /update/:id` -> database save -> redirect to `/`
+
+## 12. The Delete Route: `POST /delete/:id`
 
 Code lives in [server.js](/Users/rohan/Desktop/Rohan%20Desktop/Classes/vaibhav%20web%20dev%20sessions/node-expense-tracker/server.js:41)
 
@@ -586,7 +833,7 @@ This extra check is not strictly required, but it makes the logic clearer:
 
 It also gives a place to handle the "not found" case cleanly.
 
-## 12. `req` and `res`
+## 13. `req` and `res`
 
 Every Express route handler gets two important objects:
 
@@ -631,7 +878,7 @@ This project mainly uses:
 - `res.render("home", data)`
 - `res.redirect("/")`
 
-## 13. `res.render()` vs `res.redirect()`
+## 14. `res.render()` vs `res.redirect()`
 
 This distinction is very important.
 
@@ -645,6 +892,7 @@ This distinction is very important.
 This is used in:
 
 - `GET /`
+- `GET /update/:id`
 
 because the goal is to show the page.
 
@@ -658,6 +906,7 @@ because the goal is to show the page.
 This is used after:
 
 - adding an expense
+- updating an expense
 - deleting an expense
 
 Why?
@@ -671,7 +920,7 @@ This is a common server-rendered pattern:
 
 That pattern is often called Post/Redirect/Get.
 
-## 14. Async/Await Deep Explanation
+## 15. Async/Await Deep Explanation
 
 This is one of the key concepts in the whole project.
 
@@ -703,6 +952,8 @@ Database methods like:
 - `mongoose.connect()`
 - `Expense.find()`
 - `Expense.create()`
+- `Expense.findById()`
+- `expense.save()`
 - `Expense.findByIdAndDelete()`
 
 return promises.
@@ -753,7 +1004,7 @@ then `expenses` would be a promise, not the final data.
 
 So rendering would not work as expected.
 
-## 15. `try/catch` and Error Handling
+## 16. `try/catch` and Error Handling
 
 Each async route is wrapped in `try/catch`.
 
@@ -782,7 +1033,7 @@ In this project:
 
 That keeps the app simple while still preventing unhandled failures.
 
-## 16. Database Connection: `config/db.js`
+## 17. Database Connection: `config/db.js`
 
 File: [config/db.js](/Users/rohan/Desktop/Rohan%20Desktop/Classes/vaibhav%20web%20dev%20sessions/node-expense-tracker/config/db.js:1)
 
@@ -825,7 +1076,7 @@ Because this app cannot function correctly without the database.
 
 So instead of staying alive in a broken state, the process stops.
 
-## 17. Mongoose Deep Explanation
+## 18. Mongoose Deep Explanation
 
 Mongoose is a library that helps Node.js applications work with MongoDB in a more structured way.
 
@@ -926,6 +1177,7 @@ With the model, we can do:
 - `Expense.find({})`
 - `Expense.create({...})`
 - `Expense.findById(id)`
+- update a fetched document and call `.save()`
 - `Expense.findByIdAndDelete(id)`
 
 Simple memory trick:
@@ -933,9 +1185,12 @@ Simple memory trick:
 - schema = rules
 - model = operations
 
-## 18. EJS Deep Explanation
+## 19. EJS Deep Explanation
 
-File: [home.ejs](/Users/rohan/Desktop/Rohan%20Desktop/Classes/vaibhav%20web%20dev%20sessions/node-expense-tracker/views/home.ejs:1)
+Files:
+
+- [home.ejs](/Users/rohan/Desktop/Rohan%20Desktop/Classes/vaibhav%20web%20dev%20sessions/node-expense-tracker/views/home.ejs:1)
+- [edit.ejs](/Users/rohan/Desktop/Rohan%20Desktop/Classes/vaibhav%20web%20dev%20sessions/node-expense-tracker/views/edit.ejs:1)
 
 EJS stands for Embedded JavaScript.
 
@@ -953,6 +1208,12 @@ The home page needs dynamic data:
 
 - list of expenses
 - total expense amount
+
+The edit page also needs dynamic data:
+
+- the exact expense being edited
+- the existing name
+- the existing amount
 
 Instead of hardcoding HTML, EJS lets the server inject real data.
 
@@ -997,6 +1258,16 @@ That means:
 - `expenses` becomes available in `home.ejs`
 - `total` becomes available in `home.ejs`
 
+When `GET /update/:id` runs:
+
+```js
+res.render("edit", { expense });
+```
+
+That means:
+
+- `expense` becomes available in `edit.ejs`
+
 ### Looping through expenses
 
 This code:
@@ -1027,7 +1298,27 @@ means:
 
 That is dynamic rendering based on data.
 
-## 19. Understanding the Form Flow
+### How `edit.ejs` uses EJS
+
+The edit page uses EJS a little differently from the home page.
+
+Instead of looping through many expenses, it focuses on one expense object.
+
+Examples:
+
+```ejs
+action="/update/<%= expense._id %>"
+value="<%= expense.name %>"
+value="<%= expense.amount %>"
+```
+
+These lines let the server:
+
+- generate the correct update URL for that one expense
+- prefill the form with the existing saved values
+- make editing feel like modifying current data instead of creating new data
+
+## 20. Understanding the Form Flow
 
 The add expense form is inside `home.ejs`.
 
@@ -1060,7 +1351,25 @@ So:
 
 That is how browser form data reaches the server.
 
-## 20. Understanding the Delete Flow
+The update form in `edit.ejs` follows the same principle:
+
+```html
+<form action="/update/<id>" method="POST">
+```
+
+and:
+
+```html
+<input name="name" value="old name" />
+<input name="amount" value="old amount" />
+```
+
+So the browser sends:
+
+- the target expense id through the URL
+- the edited field values through the form body
+
+## 21. Understanding the Delete Flow
 
 The delete button is inside a form:
 
@@ -1083,7 +1392,7 @@ When the user clicks delete:
 
 This shows how server-side templates can generate dynamic URLs.
 
-## 21. Request-Response Cycle in Real Examples
+## 22. Request-Response Cycle in Real Examples
 
 ### Example A: Loading the home page
 
@@ -1120,7 +1429,22 @@ This shows how server-side templates can generate dynamic URLs.
 7. browser sends new `GET /`
 8. page reloads without that expense
 
-## 22. Why This App Is Called Server-Rendered
+### Example D: Updating an expense
+
+1. user clicks the edit link on the home page
+2. browser sends `GET /update/:id`
+3. route reads `req.params.id`
+4. route fetches one expense from MongoDB
+5. route renders `edit.ejs` with that expense
+6. user changes the prefilled form values
+7. browser sends `POST /update/:id`
+8. route validates edited values
+9. route updates the document and saves it
+10. route redirects to `/`
+11. browser sends new `GET /`
+12. page reloads with the edited expense
+
+## 23. Why This App Is Called Server-Rendered
 
 In modern apps, sometimes the browser fetches JSON and builds the UI itself.
 
@@ -1140,7 +1464,7 @@ Benefits:
 - easy beginner flow
 - no separate frontend API code needed
 
-## 23. Core Concepts Summary
+## 24. Core Concepts Summary
 
 ### Node.js
 
@@ -1210,7 +1534,7 @@ Tell the browser to make a new request to another route.
 
 Cleaner syntax for working with promises and asynchronous operations.
 
-## 24. Code Reading Order Recommendation
+## 25. Code Reading Order Recommendation
 
 If you want to understand this project in the best order, read it like this:
 
@@ -1228,7 +1552,7 @@ That order helps because:
 - then UI template
 - then styling
 
-## 25. Final Mental Model
+## 26. Final Mental Model
 
 Keep this one mental model in mind:
 

@@ -76,6 +76,10 @@
                 <form action="/delete/<%= expenseObj._id %>" method="POST">
                   <button class="delete-btn" type="submit">Delete</button>
                 </form>
+
+                <a href="/update/<%= expenseObj._id%>">
+                  <button class="update-btn" type="submit">Edit</button></a
+                >
               </div>
             </li>
 
