@@ -1,10 +1,20 @@
 import { Router } from "express";
 import User from "../models/user.js";
 import bcrypt from "bcryptjs";
+import passport from "passport";
 
 const router = Router();
 
-router.route("/").get((req, res) => res.render("home"));
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
+}
+
+router.route("/").get((req, res) => {
+  res.render("home");
+});
 
 router
   .route("/register")
@@ -26,7 +36,7 @@ router
       });
 
       console.log("User Successfully Registered");
-      res.render("secrets");
+      res.redirect("/login");
     } catch (err) {
       console.log("Failed to Register!");
       res.redirect("/register");
@@ -36,30 +46,14 @@ router
 router
   .route("/login")
   .get((req, res) => res.render("login"))
-  .post(async (req, res) => {
-    try {
-      const { username, password } = req.body;
+  .post(
+    passport.authenticate("local", {
+      successRedirect: "/secrets",
+      failureRedirect: "/login",
+    })
+  );
 
-      const user = await User.findOne({ username: username });
-
-      if (!user) {
-        console.log("User doesn't exists with email : ", username);
-        return res.redirect("/register");
-      }
-
-      const match = await bcrypt.compare(password, user.password);
-
-      if (!match) {
-        console.log("Invalid Password");
-        return res.redirect("/login");
-      }
-
-      console.log("User Successfully Logged In");
-      res.render("secrets");
-    } catch (err) {
-      console.log("Failed to Login!");
-      res.redirect("/register");
-    }
-  });
-
+router.route("/secrets").get(isLoggedIn, (req, res) => {
+  res.render("secrets");
+});
 export default router;
