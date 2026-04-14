@@ -6,7 +6,9 @@ import passport from "passport";
 const router = Router();
 
 function isLoggedIn(req, res, next) {
+  console.log("is authenticated =>", req.isAuthenticated());
   if (req.isAuthenticated()) {
+    console.log("user =>", req.user);
     return next();
   }
   res.redirect("/login");
@@ -55,5 +57,16 @@ router
 
 router.route("/secrets").get(isLoggedIn, (req, res) => {
   res.render("secrets");
+});
+
+router.route("/logout").get(async (req, res) => {
+  req.logOut((err) => {
+    if (!err) {
+      return res.redirect("/");
+    }
+
+    console.log(err);
+    return res.redirect("/");
+  });
 });
 export default router;
