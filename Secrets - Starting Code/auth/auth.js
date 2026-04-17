@@ -1,5 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
 
@@ -21,6 +22,34 @@ passport.use(
       return cb(err);
     }
   })
+);
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/auth/google/callback",
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      try {
+        let user = await User.findOne({ googleId: profile.id });
+
+        console.log("Google profile", profile);
+
+        if (!user) {
+          user = await User.create({
+            googleId: profile.id,
+            username: profile.emails[0].value,
+          });
+        }
+
+        return cb(null, user);
+      } catch (err) {
+        return cb(err, null);
+      }
+    }
+  )
 );
 
 passport.serializeUser((user, cb) => {

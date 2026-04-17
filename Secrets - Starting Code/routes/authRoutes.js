@@ -2,6 +2,7 @@ import { Router } from "express";
 import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 import passport from "passport";
+import pass from "../auth/auth.js";
 
 const router = Router();
 
@@ -69,4 +70,15 @@ router.route("/logout").get(async (req, res) => {
     return res.redirect("/");
   });
 });
+
+router
+  .route("/auth/google")
+  .get(passport.authenticate("google", { scope: ["profile", "email"] }));
+
+router.route("/auth/google/callback").get(
+  passport.authenticate("google", {
+    successRedirect: "/secrets",
+    failureRedirect: "/login",
+  })
+);
 export default router;

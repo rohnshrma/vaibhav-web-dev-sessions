@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap");
 
 :root {
   --bg: #f6efe5;
@@ -27,9 +27,16 @@ body {
   margin: 0;
   color: var(--text);
   font-family: "Manrope", sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 28%),
-    radial-gradient(circle at 85% 15%, rgba(235, 165, 113, 0.3), transparent 20%),
+  background: radial-gradient(
+      circle at top left,
+      rgba(255, 255, 255, 0.95),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(235, 165, 113, 0.3),
+      transparent 20%
+    ),
     linear-gradient(135deg, #f8f1e7 0%, #efddc7 50%, #f7eee4 100%);
   background-attachment: fixed;
   position: relative;
@@ -125,7 +132,11 @@ a {
   justify-content: center;
   border-radius: 24px;
   color: var(--surface-strong);
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    var(--accent-deep) 100%
+  );
   box-shadow: 0 20px 40px rgba(139, 63, 36, 0.24);
 }
 
@@ -169,7 +180,11 @@ a {
 }
 
 .hero-card {
-  background: linear-gradient(180deg, rgba(255, 248, 240, 0.94), rgba(247, 230, 212, 0.88));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 248, 240, 0.94),
+    rgba(247, 230, 212, 0.88)
+  );
   border: 1px solid rgba(139, 63, 36, 0.08);
   border-radius: 28px;
   padding: 2rem;
@@ -212,7 +227,8 @@ a {
   font-weight: 800;
   letter-spacing: 0.01em;
   border-width: 0;
-  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease,
+    background-color 180ms ease, color 180ms ease;
 }
 
 .btn:hover,
@@ -223,7 +239,11 @@ a {
 
 .btn-dark,
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    var(--accent-deep) 100%
+  );
   color: #fff;
 }
 
@@ -265,8 +285,11 @@ a {
 
 .auth-showcase {
   padding: 3rem;
-  background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.22), transparent 30%),
+  background: radial-gradient(
+      circle at top,
+      rgba(255, 255, 255, 0.22),
+      transparent 30%
+    ),
     linear-gradient(160deg, #b95b35 0%, #8e4427 100%);
   color: #fff;
 }
@@ -348,6 +371,68 @@ label {
 .form-note {
   margin-top: 1.25rem;
   color: var(--muted);
+}
+
+.divider-section {
+  position: relative;
+  text-align: center;
+  margin: 2.2rem 0;
+}
+
+.divider-section::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(109, 79, 55, 0.2),
+    transparent
+  );
+}
+
+.divider-text {
+  position: relative;
+  background: #fffbf6;
+  padding: 0 1.25rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 99px;
+}
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 100%;
+  background: #ffffff;
+  color: #3c4043;
+  border: 1px solid rgba(0,0,0,0.08);
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.25rem;
+}
+
+.btn-google:hover,
+.btn-google:focus {
+  background: #ffffff;
+  color: #3c4043;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.09);
+  border-color: rgba(0,0,0,0.15);
+}
+
+.btn-google i {
+  /* Colorful Google icon effect */
+  color: #ea4335;
+  font-size: 1.25rem;
 }
 
 .feature-layout,

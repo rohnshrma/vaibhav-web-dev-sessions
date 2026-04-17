@@ -1,15 +1,13 @@
 //jshint esversion:6
 
+import "dotenv/config.js";
 import express from "express";
-import { config } from "dotenv";
 import morgan from "morgan";
 import authRoutes from "./routes/authRoutes.js";
 import connectDB from "./config/db.js";
 import session from "express-session";
 import passport from "./auth/auth.js";
 const app = express();
-
-config();
 
 connectDB();
 const PORT = process.env.PORT || 3000;

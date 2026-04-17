@@ -11,10 +11,8 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
-    minlength: 8,
-    trim: true,
   },
+  googleId: { type: String },
 });
 
 export default mongoose.model("User", userSchema);
