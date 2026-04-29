@@ -68,6 +68,25 @@ export const DELETE_EXPENSE = async (req, res) => {
 };
 export const UPDATE_EXPENSE = async (req, res) => {
   try {
+    const { name, amount } = req.body;
+    const { id } = req.params;
+
+    const expense = await Expense.findById(id);
+
+    if (!expense)
+      return res
+        .status(404)
+        .json({ data: { expense: null }, message: "Expense Not Found" });
+
+    expense.name = name;
+    expense.amount = amount;
+
+    await expense.save();
+
+    return res.status(200).json({
+      data: { expense: expense },
+      message: "Expense Updated Successfully",
+    });
   } catch (err) {
     return res
       .status(500)
